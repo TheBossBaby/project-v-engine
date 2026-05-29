@@ -1,0 +1,3 @@
+[submodule "external/project-v-core"]
+	path = external/project-v-core
+	url = https://github.com/TheBossBaby/project-v-core
