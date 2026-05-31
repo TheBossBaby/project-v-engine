@@ -22,9 +22,13 @@ target_sources(projectv_engine
     PUBLIC
         include/projectV/engine/log.hpp
         include/projectV/engine/SpdLogger.hpp
+
+        include/projectV/engine/application.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
+
+        src/engine/application.cpp
 )
 
 # Public headers
