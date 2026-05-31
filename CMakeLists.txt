@@ -12,10 +12,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_subdirectory(external/project-v-core)
+add_subdirectory(external/spdlog)
 
 # engine lib setup here ...
-add_library(projectv_engine STATIC ...)
+add_library(projectv_engine STATIC)
+
+# Add sources
+target_sources(projectv_engine
+    PUBLIC
+        include/projectV/engine/log.hpp
+        include/projectV/engine/SpdLogger.hpp
+    PRIVATE
+        src/engine/log.cpp
+        src/engine/SpdLogger.cpp
+)
+
+# Public headers
+target_include_directories(projectv_engine
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 target_link_libraries(projectv_engine PUBLIC engine_core)
+target_link_libraries(projectv_engine PUBLIC spdlog::spdlog)
 
 set_target_properties(projectv_engine PROPERTIES LINKER_LANGUAGE CXX)
 

@@ -1,7 +1,10 @@
-#include <iostream>
+#include "projectV/engine/log.hpp"
 
 int main()
 {
-    std::cout << "Application started.\n";
+    projectv::engine::InitLogging();
+    projectv::engine::LogInfo("Application started.");
+    projectv::engine::ShutdownLogging();
+
     return 0;
 }
