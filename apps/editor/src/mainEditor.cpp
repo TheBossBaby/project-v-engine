@@ -1,7 +1,9 @@
-#include <iostream>
+#include "projectv/engine/log.hpp"
 
 int main()
 {
-    std::cout << "Editor started.\n";
+    projectv::engine::InitLogging();
+    projectv::engine::LogInfo("Editor starting...");
+    projectv::engine::ShutdownLogging();
     return 0;
 }
