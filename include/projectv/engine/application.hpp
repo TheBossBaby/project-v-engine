@@ -1,6 +1,7 @@
 #pragma once
 
 #include "projectv/core/application.hpp"
+#include <memory>
 
 namespace projectv::engine
 {
@@ -16,5 +17,9 @@ namespace projectv::engine
         void tick(float deltaTime) override;
 
         void render() override;
+    private:
+        projectv::core::WindowDesc m_windowDesc{};
+        
+        std::unique_ptr<projectv::core::IWindow> m_window;
     };
 }
