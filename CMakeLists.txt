@@ -30,11 +30,13 @@ target_sources(projectv_engine
         include/projectV/engine/SpdLogger.hpp
 
         include/projectV/engine/application.hpp
+        include/projectV/engine/glfwWindow.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
 
         src/engine/application.cpp
+        src/engine/glfwWindow.cpp
 )
 
 # Public headers
