@@ -1,4 +1,4 @@
-#include "projectv/engine/editorApplication.hpp"
+#include "projectv/engine/core/editorApplication.hpp"
 #include "projectv/core/window.hpp"
 
 namespace projectv::engine

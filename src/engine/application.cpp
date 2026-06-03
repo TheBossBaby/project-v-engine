@@ -1,6 +1,6 @@
-#include "projectv/engine/application.hpp"
-#include "projectv/engine/glfwWindow.hpp"
-#include "projectv/engine/log.hpp"
+#include "projectv/engine/core/application.hpp"
+#include "projectv/engine/platform/glfwWindow.hpp"
+#include "projectv/engine/logging/log.hpp"
 
 namespace projectv::engine
 {

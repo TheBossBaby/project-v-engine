@@ -1,5 +1,5 @@
-#include "projectV/engine/log.hpp"
-#include "projectV/engine/application.hpp"
+#include "projectV/engine/logging/log.hpp"
+#include "projectV/engine/core/application.hpp"
 
 int main()
 {

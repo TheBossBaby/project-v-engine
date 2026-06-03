@@ -26,11 +26,11 @@ add_library(projectv_engine STATIC)
 # Add sources
 target_sources(projectv_engine
     PUBLIC
-        include/projectV/engine/log.hpp
-        include/projectV/engine/SpdLogger.hpp
+        include/projectV/engine/logging/log.hpp
+        include/projectV/engine/logging/SpdLogger.hpp
 
-        include/projectV/engine/application.hpp
-        include/projectV/engine/glfwWindow.hpp
+        include/projectV/engine/core/application.hpp
+        include/projectV/engine/platform/glfwWindow.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp

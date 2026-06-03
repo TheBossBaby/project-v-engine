@@ -1,7 +1,7 @@
 #include "projectV/core/logger.hpp"
 
-#include "projectV/engine/log.hpp"
-#include "projectV/engine/SpdLogger.hpp"
+#include "projectV/engine/logging/log.hpp"
+#include "projectV/engine/logging/SpdLogger.hpp"
 
 #include <memory>
 
