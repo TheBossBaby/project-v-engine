@@ -10,7 +10,7 @@ on:
 
 env:
   BUILD_TYPE: Debug
-
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
 jobs:
   build:
     runs-on: windows-latest
@@ -26,11 +26,11 @@ jobs:
         run: cmake -S . -B build-editor -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DPROJECTV_BUILD_EDITOR=ON
 
       - name: Build (Editor)
-        run: cmake --build build-editor --config ${{ env.BUILD_TYPE }}
+        run: cmake --build build-editor --config ${{ env.BUILD_TYPE }} --parallel ${{ env.CMAKE_BUILD_PARALLEL_LEVEL }}
 
       # Build application variant
       - name: Configure CMake (Application)
         run: cmake -S . -B build-app -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DPROJECTV_BUILD_EDITOR=OFF
 
       - name: Build (Application)
-        run: cmake --build build-app --config ${{ env.BUILD_TYPE }}
+        run: cmake --build build-app --config ${{ env.BUILD_TYPE }} --parallel ${{ env.CMAKE_BUILD_PARALLEL_LEVEL }}

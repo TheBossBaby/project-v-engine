@@ -20,6 +20,9 @@ add_subdirectory(external/project-v-core)
 add_subdirectory(external/spdlog)
 add_subdirectory(external/glfw)
 
+# Mesh Loading
+add_subdirectory(external/assimp)
+
 # engine lib setup here ...
 add_library(projectv_engine STATIC)
 
@@ -48,6 +51,9 @@ target_include_directories(projectv_engine
 target_link_libraries(projectv_engine PUBLIC engine_core)
 target_link_libraries(projectv_engine PUBLIC spdlog::spdlog)
 target_link_libraries(projectv_engine PUBLIC glfw)
+
+# Mesh Loading
+target_link_libraries(projectv_engine PRIVATE assimp)
 
 set_target_properties(projectv_engine PROPERTIES LINKER_LANGUAGE CXX)
 
