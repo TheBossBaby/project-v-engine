@@ -33,13 +33,18 @@ target_sources(projectv_engine
         include/projectV/engine/logging/SpdLogger.hpp
 
         include/projectV/engine/core/application.hpp
+
         include/projectV/engine/platform/glfwWindow.hpp
+
+        include/projectv/engine/resource/meshLoaderAssimp.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
 
         src/engine/application.cpp
         src/engine/glfwWindow.cpp
+
+        src/engine/meshLoaderAssimp.cpp
 )
 
 # Public headers
