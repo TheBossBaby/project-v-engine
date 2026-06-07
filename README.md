@@ -45,6 +45,16 @@ Current limitations:
 
 These limitations will be relaxed in later iterations as the engine’s resource and rendering systems mature.
 
+## MeshManager
+
+MeshManager is responsible for loading and caching mesh assets. It owns all loaded meshes and returns MeshHandle values that can be used to query meshes later.
+
+### Caching behavior and limitation
+
+- Meshes are cached by file path only. The first successful call to MeshManager::load for a given path uses whatever MeshLoadParams flags are provided (for example bFlipUVs, bCenterMesh, bNormalizeScale). Subsequent calls with the same path will always reuse the existing cached mesh and ignore any different flag combinations.
+
+- This design keeps memory usage simple and predictable, but it also means you cannot load multiple variants of the same source file (for example both centered and non‑centered versions) at the same time through MeshManager in the current version. If you need that behavior, you will need to either use different logical paths for pre‑baked variants or extend MeshManager so that its cache key includes the relevant MeshLoadParams flags.
+
 ## Build
 
 This project uses CMake:
