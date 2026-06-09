@@ -54,25 +54,25 @@ namespace projectv::engine
 
             // Positions
             const aiVector3D& p = srcMesh->mVertices[i];
-            dst.position[0] = p.x;
-            dst.position[1] = p.y;
-            dst.position[2] = p.z;
+            dst.position.x = p.x;
+            dst.position.y = p.y;
+            dst.position.z = p.z;
 
             // Normals
             if (hasNormals)
             {
                 const aiVector3D& n = srcMesh->mNormals[i];
-                dst.normal[0] = n.x;
-                dst.normal[1] = n.y;
-                dst.normal[2] = n.z;
+                dst.normal.x = n.x;
+                dst.normal.y = n.y;
+                dst.normal.z = n.z;
             }
 
             // UV0 – Assimp stores as 3D (xyz), we use xy
             if (hasTexCoords)
             {
                 const aiVector3D& t = srcMesh->mTextureCoords[0][i];
-                dst.uv[0] = t.x;
-                dst.uv[1] = t.y;
+                dst.uv.x = t.x;
+                dst.uv.y = t.y;
             }
         }
 
