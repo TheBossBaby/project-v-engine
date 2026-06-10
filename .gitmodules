@@ -10,3 +10,6 @@
 [submodule "external/assimp"]
 	path = external/assimp
 	url = https://github.com/assimp/assimp
+[submodule "external/entt"]
+	path = external/entt
+	url = https://github.com/skypjack/entt
