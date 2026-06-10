@@ -16,12 +16,26 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
+# Core + third‑party deps
 add_subdirectory(external/project-v-core)
 add_subdirectory(external/spdlog)
 add_subdirectory(external/glfw)
 
 # Mesh Loading
 add_subdirectory(external/assimp)
+
+# === EnTT (header‑only ECS) ===
+# The EnTT submodule lives in external/entt.
+# We create a small INTERFACE target and expose its include directory,
+# then link that into projectv_engine so we can #include <entt/entt.hpp>.
+add_library(EnTT INTERFACE)
+
+target_include_directories(EnTT INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/entt/src
+)
+
+add_library(EnTT::EnTT ALIAS EnTT)
+# === end EnTT ===
 
 # engine lib setup here ...
 add_library(projectv_engine STATIC)
@@ -55,15 +69,18 @@ target_include_directories(projectv_engine
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(projectv_engine PUBLIC engine_core)
-target_link_libraries(projectv_engine PUBLIC spdlog::spdlog)
-target_link_libraries(projectv_engine PUBLIC glfw)
-
-# Mesh Loading
-target_link_libraries(projectv_engine PRIVATE assimp)
+# Link core + third‑party libs
+target_link_libraries(projectv_engine
+    PUBLIC
+        engine_core
+        spdlog::spdlog
+        glfw
+        EnTT::EnTT         # <- EnTT available to anything using projectv_engine
+    PRIVATE
+        assimp             # mesh loading is engine‑internal
+)
 
 set_target_properties(projectv_engine PROPERTIES LINKER_LANGUAGE CXX)
-
 
 if(PROJECTV_BUILD_EDITOR)
     add_subdirectory(apps/editor)
