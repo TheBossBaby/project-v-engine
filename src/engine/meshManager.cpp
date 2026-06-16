@@ -12,7 +12,7 @@ namespace projectv::engine
 
     projectv::core::MeshHandle MeshManager::load(const core::MeshLoadParams &params)
     {
-        auto it = cache.find(std::string(params.path.data()));
+        auto it = cache.find(params.path);
         if(it != cache.end()) return it->second;
 
         if(!meshLoader)
@@ -33,7 +33,7 @@ namespace projectv::engine
         handle.index = static_cast<uint32_t>(meshList.size());
 
         meshList.push_back(std::move(*loadedMesh));
-        cache.emplace(std::string(params.path.data()), handle);
+        cache.emplace(params.path, handle);
 
         return handle;
     }
