@@ -53,6 +53,7 @@ target_sources(projectv_engine
         include/projectv/engine/resource/meshLoaderAssimp.hpp
         include/projectv/engine/resource/meshManager.hpp
         include/projectv/engine/resource/shaderManager.hpp
+        include/projectv/engine/resource/fileShaderLoader.hpp
         
         include/projectv/engine/graph/scene/ecs/world.hpp
     PRIVATE
@@ -65,7 +66,8 @@ target_sources(projectv_engine
         src/engine/meshLoaderAssimp.cpp
         src/engine/meshManager.cpp
         src/engine/shaderManager.cpp      
-        
+        src/engine/fileShaderLoader.cpp
+
         src/engine/world.cpp   
 )
 
