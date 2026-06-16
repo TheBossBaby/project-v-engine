@@ -57,12 +57,60 @@ MeshManager is responsible for loading and caching mesh assets. It owns all load
 
 ## Build
 
-This project uses CMake:
+This project uses CMake and git submodules.
+
+### 1. Clone the repository
+
+```bash
+git clone --recursive https://github.com/TheBossBaby/project-v-engine.git
+cd project-v-engine
+```
+
+If you already cloned without `--recursive`, run:
 
 ```bash
 git submodule update --init --recursive
-cmake -S . -B build
-cmake --build build --config Debug
 ```
 
-(Adapt the configuration flags or generator according to your platform and IDE.)
+### 2. Configure the build
+
+Create a separate `build` directory and generate build files.
+
+**Windows (Visual Studio generator, default):**
+
+```bash
+cmake -S . -B build
+```
+
+**Linux/macOS (Ninja or Makefiles, pick one you prefer):**
+
+```bash
+cmake -S . -B build -G "Ninja"
+# or
+cmake -S . -B build -G "Unix Makefiles"
+```
+
+### 3. Build the engine
+
+**Multi-config generators (Visual Studio, Xcode):**
+
+```bash
+cmake --build build --config Debug
+# or
+cmake --build build --config Release
+```
+
+**Single-config generators (Ninja, Makefiles):**
+
+```bash
+cmake --build build
+```
+
+### 4. Run the application
+
+The default target builds the application under `apps/application`:
+
+- On Windows + Visual Studio: open `build/project_v_engine.sln` and run the `project_v_app` target, or use `cmake --build` as above and run the generated executable from `build/apps/application/...`.
+- On Ninja/Makefiles: run the executable produced in the `build/apps/application` directory (e.g. `./apps/application/project_v_app`).
+
+> Note: the engine uses GLFW for windowing, Assimp for mesh loading, spdlog for logging, and EnTT for ECS. All of these are provided as git submodules and are built automatically by CMake; you do not need to install them separately.
