@@ -39,13 +39,11 @@ namespace projectv::engine
             registry.emplace<T>(entity, component);
         }
 
-        /**
-         * @brief Log all entities that have Transform + Mesh + Shader.
-         *
-         * This simulates a render system by iterating over all entities
-         * with the required components and printing their state.
-         */
-        void logRenderableEntities() const;
+        template<typename... Components>
+        auto view() {
+            return registry.view<Components...>();
+        }
+        
         private:
         /// Underlying ECS registry that stores all entities and components.
         entt::registry registry;
