@@ -1,0 +1,36 @@
+name: Update project-v-core submodule
+
+on:
+  repository_dispatch:
+    types: [core-updated]
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.target_branch }}
+          submodules: recursive
+          token: ${{ secrets.REPO_ENGINE_PAT }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update project-v-core submodule
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote -- /external/project-v-core
+          git fetch origin
+          git checkout ${{ github.event.client_payload.target_branch }}
+          git pull origin ${{ github.event.client_payload.target_branch }}
+          
+      - name: Commit and push if changed
+        run: |
+          git add /external/project-v-core
+          git commit -m "chore: update project-v-core submodule to ${{ github.event.client_payload.source_sha }}" || exit 0
+          git push origin HEAD:${{ github.event.client_payload.target_branch }}
