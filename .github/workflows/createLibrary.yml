@@ -35,11 +35,11 @@ jobs:
       - name: Prepare artifact layout
         run: |
           mkdir -p build/${{ steps.vars.outputs.sha_short }}
-          copy build-lib\${{ env.BUILD_TYPE }}\projectv_engine.lib build\${{ steps.vars.outputs.sha_short }}\projectv_engine.lib
+          copy build-lib\${{ env.BUILD_TYPE }}\projectv_engined.lib build\${{ steps.vars.outputs.sha_short }}\projectv_engined.lib
 
       - name: Upload engine library artifact
         uses: actions/upload-artifact@v4
         with:
           name: projectv_engine-windows-${{ env.BUILD_TYPE }}-${{ steps.vars.outputs.sha_short }}
           path: |
-            build/${{ steps.vars.outputs.sha_short }}/projectv_engine.lib
+            build/${{ steps.vars.outputs.sha_short }}/projectv_engined.lib
