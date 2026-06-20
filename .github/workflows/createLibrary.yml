@@ -21,14 +21,25 @@ jobs:
         with:
           submodules: recursive
 
-      # Build engine library (from one of the build dirs; build-app is fine)
-      - name: Build engine library
-        run: cmake --build build-app --config ${{ env.BUILD_TYPE }} --target projectv_engine
+      - name: Get short commit SHA
+        id: vars
+        run: echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
-      # Upload engine library as artifact
+      - name: Configure CMake (Engine lib)
+        run: cmake -S . -B build-lib -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+      - name: Build engine library
+        run: cmake --build build-lib --config ${{ env.BUILD_TYPE }} --target projectv_engine --parallel ${{ env.CMAKE_BUILD_PARALLEL_LEVEL }}
+
+      # Copy lib into a commit-specific subfolder
+      - name: Prepare artifact layout
+        run: |
+          mkdir -p build/${{ steps.vars.outputs.sha_short }}
+          copy build-lib\${{ env.BUILD_TYPE }}\projectv_engine.lib build\${{ steps.vars.outputs.sha_short }}\projectv_engine.lib
+
       - name: Upload engine library artifact
         uses: actions/upload-artifact@v4
         with:
-          name: projectv_engine-windows-${{ env.BUILD_TYPE }}
+          name: projectv_engine-windows-${{ env.BUILD_TYPE }}-${{ steps.vars.outputs.sha_short }}
           path: |
-            build-app/${{ env.BUILD_TYPE }}/projectv_engine.lib
+            build/${{ steps.vars.outputs.sha_short }}/projectv_engine.lib
