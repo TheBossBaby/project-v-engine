@@ -1,0 +1,34 @@
+name: Library Build (develop)
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches: [ develop ]
+
+env:
+  BUILD_TYPE: Debug
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Build engine library (from one of the build dirs; build-app is fine)
+      - name: Build engine library
+        run: cmake --build build-app --config ${{ env.BUILD_TYPE }} --target projectv_engine
+
+      # Upload engine library as artifact
+      - name: Upload engine library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: projectv_engine-windows-${{ env.BUILD_TYPE }}
+          path: |
+            build-app/${{ env.BUILD_TYPE }}/projectv_engine.lib
