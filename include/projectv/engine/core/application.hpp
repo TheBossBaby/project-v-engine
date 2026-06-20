@@ -1,6 +1,6 @@
 #pragma once
 
-#include "projectv/core/application.hpp"
+#include "projectV/core/application.hpp"
 #include <memory>
 
 namespace projectv::engine

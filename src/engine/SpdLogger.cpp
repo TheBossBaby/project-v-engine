@@ -1,4 +1,4 @@
-#include "projectV/engine/logging/SpdLogger.hpp"
+#include <projectV/engine/logging/SpdLogger.hpp>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>

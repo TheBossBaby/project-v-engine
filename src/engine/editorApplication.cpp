@@ -1,5 +1,5 @@
-#include "projectv/engine/core/editorApplication.hpp"
-#include "projectv/core/window.hpp"
+#include <projectV/engine/core/editorApplication.hpp>
+#include <projectV/core/window.hpp>
 
 namespace projectv::engine
 {

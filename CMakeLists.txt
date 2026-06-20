@@ -50,12 +50,12 @@ target_sources(projectv_engine
 
         include/projectV/engine/platform/glfwWindow.hpp
 
-        include/projectv/engine/resource/meshLoaderAssimp.hpp
-        include/projectv/engine/resource/meshManager.hpp
-        include/projectv/engine/resource/shaderManager.hpp
-        include/projectv/engine/resource/fileShaderLoader.hpp
+        include/projectV/engine/resource/meshLoaderAssimp.hpp
+        include/projectV/engine/resource/meshManager.hpp
+        include/projectV/engine/resource/shaderManager.hpp
+        include/projectV/engine/resource/fileShaderLoader.hpp
         
-        include/projectv/engine/graph/scene/ecs/world.hpp
+        include/projectV/engine/graph/scene/ecs/world.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
