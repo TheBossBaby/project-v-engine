@@ -1,0 +1,45 @@
+name: Library Build (develop)
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches: [ develop ]
+
+env:
+  BUILD_TYPE: Debug
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Get short commit SHA
+        id: vars
+        run: echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Configure CMake (Engine lib)
+        run: cmake -S . -B build-lib -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+      - name: Build engine library
+        run: cmake --build build-lib --config ${{ env.BUILD_TYPE }} --target projectv_engine --parallel ${{ env.CMAKE_BUILD_PARALLEL_LEVEL }}
+
+      # Copy lib into a commit-specific subfolder
+      - name: Prepare artifact layout
+        run: |
+          mkdir -p build/${{ steps.vars.outputs.sha_short }}
+          copy build-lib\${{ env.BUILD_TYPE }}\projectv_engined.lib build\${{ steps.vars.outputs.sha_short }}\projectv_engined.lib
+
+      - name: Upload engine library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: projectv_engine-windows-${{ env.BUILD_TYPE }}-${{ steps.vars.outputs.sha_short }}
+          path: |
+            build/${{ steps.vars.outputs.sha_short }}/projectv_engined.lib

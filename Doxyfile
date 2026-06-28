@@ -1,0 +1,37 @@
+PROJECT_NAME           = "ProjectV Engine"
+PROJECT_BRIEF          = "Implementation of ProjectV Core"
+OUTPUT_DIRECTORY       = docs
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+HTML_COLORSTYLE        = AUTO_LIGHT
+HTML_DYNAMIC_SECTIONS  = YES
+
+RECURSIVE              = YES
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+HAVE_DOT               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+UML_LOOK               = YES
+
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+GENERATE_TREEVIEW      = YES
+
+WARN_IF_UNDOCUMENTED   = NO
+
+INPUT                  = src include
+FILE_PATTERNS          = *.h *.hpp *.cpp *.cxx
