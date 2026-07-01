@@ -36,6 +36,13 @@ target_include_directories(EnTT INTERFACE
 
 add_library(EnTT::EnTT ALIAS EnTT)
 # === end EnTT ===
+#added by rit
+# === nlohmann/json (header-only JSON parser) ===
+add_library(nlohmann_json INTERFACE)
+target_include_directories(nlohmann_json INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include
+)
+# === end nlohmann/json ===
 
 # engine lib setup here ...
 add_library(projectv_engine STATIC)
@@ -56,6 +63,9 @@ target_sources(projectv_engine
         include/projectV/engine/resource/fileShaderLoader.hpp
         
         include/projectV/engine/graph/scene/ecs/world.hpp
+
+        #added by rit
+        include/projectV/engine/resource/sceneLoader.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
@@ -68,7 +78,10 @@ target_sources(projectv_engine
         src/engine/shaderManager.cpp      
         src/engine/fileShaderLoader.cpp
 
-        src/engine/world.cpp   
+        src/engine/world.cpp 
+
+        #added by rit
+        src/engine/sceneLoader.cpp
 )
 
 # Public headers
@@ -85,7 +98,10 @@ target_link_libraries(projectv_engine
         glfw
         EnTT::EnTT         # <- EnTT available to anything using projectv_engine
     PRIVATE
-        assimp             # mesh loading is engine‑internal
+        assimp 
+        
+        #added by rit
+        nlohmann_json           # mesh loading is engine‑internal
 )
 
 set_target_properties(projectv_engine PROPERTIES LINKER_LANGUAGE CXX)
