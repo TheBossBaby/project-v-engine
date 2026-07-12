@@ -25,6 +25,17 @@ namespace projectv::engine
         uint32_t getWidth() const override;
 
         uint32_t getHeight() const override;
+
+        /**
+         * @brief Returns the native platform window handle.
+         *
+         * This function exists to support platform-specific integrations,
+         * such as Vulkan surface creation. Callers are responsible for
+         * casting the returned pointer to the appropriate native type.
+         *
+         * @return Native window handle.
+         */
+        void* nativeHandle() const noexcept override;
     private:
         GLFWwindow* m_window = nullptr;
 

@@ -74,4 +74,9 @@ namespace projectv::engine
         if(!m_window) return 0;
         return m_height;
     }
+
+    void *GlfwWindow::nativeHandle() const noexcept
+    {
+        return static_cast<void*>(m_window);
+    }
 }
