@@ -17,7 +17,7 @@ namespace projectv::engine
         void tick(float deltaTime) override;
 
         void render() override;
-    private:
+    protected:
         projectv::core::WindowDesc m_windowDesc{};
         
         std::unique_ptr<projectv::core::IWindow> m_window;
