@@ -28,6 +28,10 @@ namespace projectv::engine
         outputFlag |= aiProcess_MakeLeftHanded;
         outputFlag |= aiProcess_FlipWindingOrder;
 
+        // Bake all scene transformations directly into the meshes.
+        // TODO : This is suitable for static mesh, when loading animations manuall vertex transformation will be needed
+        outputFlag |= aiProcess_PreTransformVertices;
+        
         if(bFlipUV) outputFlag |= aiProcess_FlipUVs;
 
         return outputFlag;
