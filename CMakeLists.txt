@@ -56,6 +56,8 @@ target_sources(projectv_engine
         include/projectV/engine/resource/fileShaderLoader.hpp
         
         include/projectV/engine/graph/scene/ecs/world.hpp
+
+        include/projectV/engine/util/assetPath.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
