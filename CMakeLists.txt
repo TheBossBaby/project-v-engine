@@ -50,6 +50,7 @@ target_sources(projectv_engine
 
         include/projectV/engine/platform/glfwWindow.hpp
 
+        include/projectV/engine/resource/levelLoader.hpp
         include/projectV/engine/resource/meshLoaderAssimp.hpp
         include/projectV/engine/resource/meshManager.hpp
         include/projectV/engine/resource/shaderManager.hpp
@@ -65,12 +66,13 @@ target_sources(projectv_engine
         src/engine/application.cpp
         src/engine/glfwWindow.cpp
 
+        src/engine/levelLoader.cpp
         src/engine/meshLoaderAssimp.cpp
         src/engine/meshManager.cpp
         src/engine/shaderManager.cpp      
         src/engine/fileShaderLoader.cpp
 
-        src/engine/world.cpp   
+        src/engine/world.cpp  
 )
 
 # Public headers
