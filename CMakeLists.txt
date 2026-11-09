@@ -50,12 +50,16 @@ target_sources(projectv_engine
 
         include/projectV/engine/platform/glfwWindow.hpp
 
+        include/projectV/engine/resource/levelLoader.hpp
         include/projectV/engine/resource/meshLoaderAssimp.hpp
         include/projectV/engine/resource/meshManager.hpp
         include/projectV/engine/resource/shaderManager.hpp
         include/projectV/engine/resource/fileShaderLoader.hpp
         
         include/projectV/engine/graph/scene/ecs/world.hpp
+
+        include/projectV/engine/util/assetPath.hpp
+        include/projectV/engine/util/assets.hpp
     PRIVATE
         src/engine/log.cpp
         src/engine/SpdLogger.cpp
@@ -63,18 +67,39 @@ target_sources(projectv_engine
         src/engine/application.cpp
         src/engine/glfwWindow.cpp
 
+        src/engine/levelLoader.cpp
         src/engine/meshLoaderAssimp.cpp
         src/engine/meshManager.cpp
         src/engine/shaderManager.cpp      
         src/engine/fileShaderLoader.cpp
 
-        src/engine/world.cpp   
+        src/engine/world.cpp  
 )
 
 # Public headers
 target_include_directories(projectv_engine
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# Directory that contains the assets. It is passed to the code as the
+# ASSETROOTLOCATION compile definition (see include/projectV/engine/util/assets.hpp),
+# and asset paths in a LevelDesc are relative to it.
+# The default is <top-level project>/assets. To use another folder, pass
+# -DPROJECTV_ASSET_ROOT=<path> to CMake, or set the variable before add_subdirectory().
+set(PROJECTV_ASSET_ROOT "${CMAKE_SOURCE_DIR}/assets"
+    CACHE PATH "Directory that contains the assets used by the level loader")
+
+if(NOT EXISTS "${PROJECTV_ASSET_ROOT}")
+    message(WARNING "PROJECTV_ASSET_ROOT does not exist: ${PROJECTV_ASSET_ROOT}")
+endif()
+
+message(STATUS "Asset root: ${PROJECTV_ASSET_ROOT}")
+
+# PUBLIC because assets.hpp is a public header that uses the definition.
+target_compile_definitions(projectv_engine
+    PUBLIC
+        ASSETROOTLOCATION="${PROJECTV_ASSET_ROOT}"
 )
 
 # Link core + third‑party libs
