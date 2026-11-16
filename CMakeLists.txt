@@ -37,6 +37,18 @@ target_include_directories(EnTT INTERFACE
 add_library(EnTT::EnTT ALIAS EnTT)
 # === end EnTT ===
 
+# === stb (header‑only image loading) ===
+# The stb submodule lives in external/stb. Only stb_image.h is used; its
+# implementation is compiled in src/engine/StbTextureLoader.cpp.
+add_library(stb INTERFACE)
+
+target_include_directories(stb INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/stb
+)
+
+add_library(stb::stb ALIAS stb)
+# === end stb ===
+
 # engine lib setup here ...
 add_library(projectv_engine STATIC)
 
@@ -53,6 +65,8 @@ target_sources(projectv_engine
         include/projectV/engine/resource/levelLoader.hpp
         include/projectV/engine/resource/meshLoaderAssimp.hpp
         include/projectV/engine/resource/meshManager.hpp
+        include/projectV/engine/resource/StbTextureLoader.hpp
+        include/projectV/engine/resource/textureManager.hpp
         include/projectV/engine/resource/shaderManager.hpp
         include/projectV/engine/resource/fileShaderLoader.hpp
         
@@ -70,7 +84,9 @@ target_sources(projectv_engine
         src/engine/levelLoader.cpp
         src/engine/meshLoaderAssimp.cpp
         src/engine/meshManager.cpp
-        src/engine/shaderManager.cpp      
+        src/engine/StbTextureLoader.cpp
+        src/engine/textureManager.cpp
+        src/engine/shaderManager.cpp
         src/engine/fileShaderLoader.cpp
 
         src/engine/world.cpp  
@@ -111,6 +127,7 @@ target_link_libraries(projectv_engine
         EnTT::EnTT         # <- EnTT available to anything using projectv_engine
     PRIVATE
         assimp             # mesh loading is engine‑internal
+        stb::stb           # texture loading is engine‑internal
 )
 
 set_target_properties(projectv_engine PROPERTIES LINKER_LANGUAGE CXX)
