@@ -49,6 +49,66 @@ target_include_directories(stb INTERFACE
 add_library(stb::stb ALIAS stb)
 # === end stb ===
 
+# === KTX-Software (.ktx2 textures) ===
+# Fetched at configure time and pinned to a release tag. Provides libktx
+# (static, for loading .ktx2 at runtime) and the `ktx` CLI (target
+# `ktxtools`), which cmake/CookTextures.cmake runs at build time to cook
+# source images into .ktx2. KTX-Software itself needs CMake 3.22 or newer.
+include(FetchContent)
+
+FetchContent_Declare(ktx
+    GIT_REPOSITORY https://github.com/KhronosGroup/KTX-Software.git
+    GIT_TAG        v4.4.2
+    GIT_SHALLOW    TRUE
+    GIT_SUBMODULES ""      # its only submodule is the conformance test suite
+)
+
+# Configured inside a function so these settings stay local to KTX and
+# do not leak into the engine or the CMake cache.
+function(projectv_add_ktx)
+    set(KTX_FEATURE_TOOLS         ON)
+    set(KTX_FEATURE_TESTS         OFF)
+    set(KTX_FEATURE_TOOLS_CTS     OFF)
+    set(KTX_FEATURE_DOC           OFF)
+    set(KTX_FEATURE_LOADTEST_APPS OFF)
+    set(KTX_FEATURE_JNI           OFF)
+    set(KTX_FEATURE_PY            OFF)
+    set(KTX_FEATURE_GL_UPLOAD     OFF)   # Vulkan renderer only
+    set(KTX_FEATURE_ETC_UNPACK    OFF)
+    set(BASISU_SUPPORT_OPENCL     OFF)
+    set(BUILD_SHARED_LIBS         OFF)   # static libktx, so ktx.exe needs no DLL
+
+    # KTX is C++17 code; under the engine's C++20, {fmt}'s compile-time
+    # format checks reject the ktx tool's sources.
+    set(CMAKE_CXX_STANDARD 17)
+
+    # Unoptimised, the ktx tool cooks about 8x slower, so KTX is optimised
+    # in Debug too. Only the optimisation flags change: KTX defines DEBUG
+    # and _DEBUG in Debug and produces broken output if NDEBUG is added.
+    foreach(lang C CXX)
+        string(REGEX REPLACE "[/-]DNDEBUG" "" flags "${CMAKE_${lang}_FLAGS_RELWITHDEBINFO}")
+        set(CMAKE_${lang}_FLAGS_DEBUG "${flags}")
+    endforeach()
+
+    # Git LFS in this repo only holds test images and OpenCL libraries.
+    set(lfs_skip_smudge "$ENV{GIT_LFS_SKIP_SMUDGE}")
+    set(ENV{GIT_LFS_SKIP_SMUDGE} 1)
+    FetchContent_MakeAvailable(ktx)
+    set(ENV{GIT_LFS_SKIP_SMUDGE} "${lfs_skip_smudge}")
+
+    # KTX_FEATURE_TOOLS also adds toktx, ktxsc, ktxinfo, etc. Build only
+    # the KTX targets something depends on (ktxtools for cooking).
+    set_property(DIRECTORY ${ktx_SOURCE_DIR} PROPERTY EXCLUDE_FROM_ALL TRUE)
+endfunction()
+projectv_add_ktx()
+# === end KTX-Software ===
+
+# Build-time texture cooking: defines pv_cook_textures() and the
+# PV_TEXTURE_PLATFORM / PV_COOK_THREADS options. CMake functions are
+# global, so a project that adds the engine (e.g. the game) can call
+# pv_cook_textures() for its own executable and assets.
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CookTextures.cmake)
+
 # engine lib setup here ...
 add_library(projectv_engine STATIC)
 
